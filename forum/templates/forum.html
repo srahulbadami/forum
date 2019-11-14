@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+<style type="text/css">
+     .centerDiv
+    {
+      width: 50%;
+      margin: 0 auto;
+      background-color:#fff ;
+    }
+</style>
+<header class="masthead" style="background-image:url("{% static 'assets/img/home-bg.jpg' %}");">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-lg-8 mx-auto">
+                    <div class="post-heading">
+                        <h1>{{title}}</h1>
+                        <h2 class="subheading">{{mini}}</h2><span class="meta">Posted by&nbsp;<a href="#">{{user.first_name}}</a>&nbsp;on {{created_at}}</span></div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-lg-8 mx-auto">
+                    <p>{{desc}}</p>
+                    <a href="#"><img class="img-fluid" src="{{image}}"></a><span class="caption text-muted">Image Credits : {{credit}}
+                    </span>
+                </div>
+            </div>
+        </div>
+        
+    </article>
+<div class="centerDiv">
+        <div class="col-md-8 card mb-4  mt-3 ">
+      <div class="card-body ">
+        <!-- comments -->
+        <h2>{{ comments.count }} comments</h2>
+
+        {% for comment in comments %}
+        <div class="comments" style="padding: 10px;">
+          <p class="font-weight-bold">
+            {{ comment.name }}
+            <span class=" text-muted font-weight-normal">
+              {{ comment.created_at }}
+            </span>
+          </p>
+          {{ comment.desc | linebreaks }}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="col-md-8 card mb-4  mt-3 ">
+      <div class="card-body">
+        {% if new_comment %}
+        <div class="alert alert-success" role="alert">
+          Your comment is awaiting moderation
+        </div>
+        {% else %}
+        <h3>Leave a comment</h3>
+        <form method="post" style="margin-top: 1.3em;">
+          {{ comment_form.as_p }}
+          {% csrf_token %}
+          <button type="submit" class="btn btn-primary  btn-lg">Submit</button>
+        </form>
+        {% endif %}
+      </div>
+    </div>
+    </div>
+    {% endblock %}

@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+<style>
+input[type=text], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+  width: 100%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+.form{
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+  width: 60%;
+      height:50%;
+      margin: 0 auto;
+      background-color:#212529 ;
+}
+textarea {
+    display: block;
+    width: 100%;
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+}
+</style>
+<header class="masthead" style="background-image:url("{% static 'assets/img/home-bg.jpg' %}");">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-lg-8 mx-auto">
+                    <div class="post-heading">
+                        <h1>Welcome {{user.first_name}} ,</h1>
+                        <h2 class="subheading">{{mini}}</h2><span class="meta">Create a new Post</span></div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <article>
+        <div class="form">
+        <form method="POST" action="/post/">{% csrf_token %}
+                    {% for field in form %}
+                     <div class="input-group">
+                       {{ field }}
+                       {% for error in field.errors %}
+                       <div class="invalid-feedback">
+                         <p style="color: red">{{ error }}</p>
+                     </div>
+                       {% endfor %}
+                     </div>
+                   {% endfor %}
+                   <input type="submit" value="Submit">
+        </form>
+    </div>
+    </article>
+
+    {% endblock %}
